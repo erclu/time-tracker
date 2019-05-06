@@ -1,0 +1,32 @@
+{
+  "folders": [
+	{
+		"path": "."
+	}
+],
+  "settings": {
+    "beautify.language": {
+      "js": {
+        "type": [
+          "javascript",
+          // "json",
+          // "jsonc",
+          "typescript"
+        ],
+        "filename": [
+          ".jshintrc",
+          ".jsbeautifyrc"
+        ]
+      },
+      "css": [
+        "css",
+        "less",
+        "scss"
+      ],
+      "html": [
+        "htm",
+        "html"
+      ]
+    }
+  }
+}
