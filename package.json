@@ -8,6 +8,6 @@
   "author": "erclu",
   "license": "ISC",
   "dependencies": {
-    "@types/google-apps-script": "0.0.37"
+    "@types/google-apps-script": "0.0.48"
   }
 }
