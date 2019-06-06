@@ -1,6 +1,24 @@
 {
   "compilerOptions": {
-    "checkJs": true,
-    "lib": ["esnext"]
-  }
+    // ----------------- required by clasp
+    "lib": [
+      "esnext"
+    ],
+    "experimentalDecorators": true,
+    // -----------------
+    // TODO add tslint?
+    // "plugins": [
+    //   {
+    //     "name": "typescript-tslint-plugin"
+    //   }
+    // ],
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "removeComments": true,
+  },
+  "exclude": [
+    "node_modules",
+  ]
 }
