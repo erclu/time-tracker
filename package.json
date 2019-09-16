@@ -7,10 +7,13 @@
   },
   "author": "erclu",
   "license": "ISC",
-  "dependencies": {
-    "@types/google-apps-script": "*",
-    "tslint": "*",
-    "typescript": "3.4.5",
-    "typescript-tslint-plugin": "*"
+  "dependencies": {},
+  "devDependencies": {
+    "@google/clasp": "^2.3.0",
+    "@types/google-apps-script": "0.0.59",
+    "ts2gas": "^3.4.4",
+    "tslint": "^5.20.0",
+    "typescript": "^3.6.3",
+    "typescript-tslint-plugin": "^0.5.4"
   }
 }

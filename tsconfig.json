@@ -6,19 +6,22 @@
     ],
     "experimentalDecorators": true,
     // -----------------
-    // TODO add tslint?
-    // "plugins": [
-    //   {
-    //     "name": "typescript-tslint-plugin"
-    //   }
-    // ],
+    "plugins": [
+      {
+        "name": "typescript-tslint-plugin",
+        "alwaysShowRuleFailuresAsWarnings": false,
+        "suppressWhileTypeErrorsPresent": false
+      }
+    ],
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "strict": true,
+    "newLine": "lf",
     "noUnusedLocals": true,
-    "removeComments": true,
+    "noUnusedParameters": true,
+    "removeComments": true
   },
   "exclude": [
-    "node_modules",
+    "node_modules"
   ]
 }

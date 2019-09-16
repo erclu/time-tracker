@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json.schemastore.org/tslint",
+  "extends": "tslint:recommended",
+  "rules": {
+    "cyclomatic-complexity": [
+      true,
+      10
+    ],
+    "file-name-casing": [
+      true,
+      "camel-case"
+    ],
+    "interface-name": false,
+    "no-console": false,
+    "semicolon": [
+      true,
+      "always",
+      "ignore-bound-class-methods"
+    ]
+  }
+}
