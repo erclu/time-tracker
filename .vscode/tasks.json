@@ -4,17 +4,18 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "clasp: push",
+      "label": "clasp: push once and track remote status",
       "type": "shell",
-      "command": "clasp push",
+      "command": "& ./.vscode/clasp-push-and-track.ps1",
       "presentation": {
         "echo": true,
-        "reveal": "silent",
-        "focus": false,
+        "reveal": "always",
+        "focus": true,
         "panel": "dedicated",
         "showReuseMessage": false,
         "clear": true
       },
+      "problemMatcher": [],
       "group": {
         "kind": "build",
         "isDefault": true
