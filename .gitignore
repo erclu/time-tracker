@@ -1,4 +1,5 @@
+# npm packages folder
 node_modules/
 
-# .vscode
-# *.code-workspace
+# Clasp script credentials
+.clasp.json
