@@ -14,10 +14,10 @@ function onOpen() {
   SpreadsheetApp.setActiveSheet(
     SpreadsheetApp.getActiveSpreadsheet().getSheetByName("CurrentTrackers"),
   );
-  var range = SpreadsheetApp.getActiveSpreadsheet()
+  const range = SpreadsheetApp.getActiveSpreadsheet()
     .getSheetByName("GetTrackersForm")
     .getRange("E2:E");
-  for (var row = 2; row < range.getHeight(); row++) {
+  for (let row = 2; row < range.getHeight(); row++) {
     if (range.getCell(row, 1).isBlank()) {
       SpreadsheetApp.getUi().alert("Some rows are not logged");
       break;
@@ -33,21 +33,21 @@ function onOpen() {
 }
 
 function installableOnEdit(e) {
-  var oldValue = e.oldValue;
-  var newValue = e.value;
-  var range = e.range;
+  const oldValue = e.oldValue;
+  const newValue = e.value;
+  const range = e.range;
   Logger.log("old: %s - new: %s", oldValue, newValue);
-  var curSheet = range.getSheet().getSheetName();
-  var curRow = range.getRow();
-  var numRows = range.getNumRows();
-  var curColumn = range.getColumn();
-  var numColumns = range.getNumColumns();
-  var test =
-    curSheet == "CurrentTrackers" &&
-    curColumn == 1 &&
-    numRows == 1 &&
+  const curSheet = range.getSheet().getSheetName();
+  const curRow = range.getRow();
+  const numRows = range.getNumRows();
+  const curColumn = range.getColumn();
+  const numColumns = range.getNumColumns();
+  const test =
+    curSheet === "CurrentTrackers" &&
+    curColumn === 1 &&
+    numRows === 1 &&
     curRow > 1 &&
-    numColumns == 1 &&
+    numColumns === 1 &&
     oldValue !== undefined &&
     newValue === undefined;
   Logger.log(
@@ -60,13 +60,13 @@ function installableOnEdit(e) {
     test,
   );
   if (test) {
-    var ui = SpreadsheetApp.getUi();
-    var result = ui.alert(
+    const ui = SpreadsheetApp.getUi();
+    const result = ui.alert(
       'delete tracker "' + oldValue + '" ?',
       ui.ButtonSet.YES_NO,
     );
     if (result === ui.Button.YES) {
-      var howManyDeletedEvents = deleteTracker(e.oldValue, range.getRow());
+      const howManyDeletedEvents = deleteTracker(e.oldValue, range.getRow());
       if (howManyDeletedEvents > 0) {
         ui.alert("deleted " + howManyDeletedEvents + " event/s");
       }

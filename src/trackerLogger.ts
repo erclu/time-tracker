@@ -4,8 +4,8 @@ function logEntry(row) {
     Logger.log("logEntry: no parameter passed");
     return;
   }
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var getTrackers = ss
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const getTrackers = ss
     .getSheetByName("GetTrackersForm")
     .getRange(row, 2, 1, 4)
     .getValues()[0];
@@ -16,25 +16,27 @@ function logEntry(row) {
   }
   Logger.log("updating CurrentTrackers");
 
-  var tracker = {
+  const tracker = {
     name: getTrackers[0],
     start: getTrackers[1],
     end: getTrackers[2],
   };
-  var lastDiff = tracker.end.getTime() - tracker.start.getTime();
+  const lastDiff = tracker.end.getTime() - tracker.start.getTime();
   //Logger.log("TRACKER\nname: %s\nstart: %s\nend: %s",tracker.name, tracker.start, tracker.end);
-  var sheet = ss.getSheetByName("CurrentTrackers");
-  var numTrackers = sheet.getLastRow() - 1;
+  const sheet = ss.getSheetByName("CurrentTrackers");
+  let numTrackers = sheet.getLastRow() - 1;
   if (!numTrackers) {
     sheet.getRange(2, 1).setValue(tracker.name);
     numTrackers++;
   }
-  var matchingTrackerRow = findMatchingTrackerRow(tracker.name); // is index + 2 or false
-  var lastDay;
-  var rawTotal;
-  var rawTodayTotal;
+  const matchingTrackerRow = findMatchingTrackerRow(tracker.name); // is index + 2 or false
+  let lastDay;
+  let rawTotal;
+  let rawTodayTotal;
   if (matchingTrackerRow) {
-    var oldValues = sheet.getRange(matchingTrackerRow, 2, 1, 5).getValues()[0];
+    const oldValues = sheet
+      .getRange(matchingTrackerRow, 2, 1, 5)
+      .getValues()[0];
     sheet.deleteRow(matchingTrackerRow);
     rawTotal = Number(oldValues[0]);
     rawTodayTotal = Number(oldValues[1]);
@@ -46,12 +48,12 @@ function logEntry(row) {
     lastDay = -1;
   }
   rawTotal += lastDiff;
-  var day = new Date(+tracker.start * 1000).toLocaleDateString();
+  const day = new Date(+tracker.start * 1000).toLocaleDateString();
   day == lastDay ? (rawTodayTotal += lastDiff) : (rawTodayTotal = lastDiff);
-  var total = rawTotal / 86400;
-  var todayTotal = rawTodayTotal / 86400;
-  var lastSession = (+tracker.end - +tracker.start) / 86400;
-  var values = [
+  const total = rawTotal / 86400;
+  const todayTotal = rawTodayTotal / 86400;
+  const lastSession = (+tracker.end - +tracker.start) / 86400;
+  const values = [
     [
       tracker.name,
       rawTotal,
@@ -62,7 +64,7 @@ function logEntry(row) {
       lastSession,
     ],
   ]; // 7 columns
-  var formats = [["@", "#", "#", "[hh]:mm", "[hh]:mm", "dd/mm", "[hh]:mm"]];
+  const formats = [["@", "#", "#", "[hh]:mm", "[hh]:mm", "dd/mm", "[hh]:mm"]];
   if (formats[0].length != values[0].length) {
     Logger.log("wotwot");
   }
@@ -79,22 +81,22 @@ function logEntry(row) {
 }
 
 function logAll() {
-  var rows = SpreadsheetApp.getActiveSpreadsheet()
+  const rows = SpreadsheetApp.getActiveSpreadsheet()
     .getSheetByName("GetTrackersForm")
     .getLastRow();
   Logger.log(rows);
-  for (var i = 2; i <= rows; i++) {
+  for (let i = 2; i <= rows; i++) {
     logEntry(i);
   }
   return;
 }
 
 function findMatchingTrackerRow(name) {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(
     "CurrentTrackers",
   );
-  var values = sheet.getRange(2, 1, sheet.getMaxRows()).getValues();
-  for (var index = 0; index < values.length; index++) {
+  const values = sheet.getRange(2, 1, sheet.getMaxRows()).getValues();
+  for (let index = 0; index < values.length; index++) {
     if (values[index][0] == name) {
       return index + 2;
     }
