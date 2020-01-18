@@ -1,5 +1,5 @@
 {
-  "name": "erc_clasp",
+  "name": "tasks-time-tracker",
   "version": "1.0.0",
   "description": "",
   "scripts": {
@@ -7,13 +7,13 @@
   },
   "author": "erclu",
   "license": "ISC",
-  "dependencies": {},
   "devDependencies": {
     "@google/clasp": "^2.3.0",
-    "@types/google-apps-script": "0.0.59",
+    "@types/google-apps-script": "^1.0.9",
+    "prettier": "1.19.1",
     "ts2gas": "^3.4.4",
-    "tslint": "^5.20.0",
-    "typescript": "^3.6.3",
-    "typescript-tslint-plugin": "^0.5.4"
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.5",
+    "typescript-tslint-plugin": "^0.5.5"
   }
 }
