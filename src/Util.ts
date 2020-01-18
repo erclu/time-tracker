@@ -1,25 +1,24 @@
-// Compiled using ts2gas 1.6.0 (TypeScript 3.3.3)
-var exports = exports || {};
-var module = module || { exports: exports };
-
 function addToTracker() {
   var loggerSheet = SpreadsheetApp.getActiveSheet();
   var range = loggerSheet.getActiveRange();
 
-  if (range.getSheet().getSheetName() != "CurrentTrackers" &&
+  if (
+    range.getSheet().getSheetName() != "CurrentTrackers" &&
     range.getRow() != 1 &&
-    range.getNumRows() != 1) {
+    range.getNumRows() != 1
+  ) {
     return;
   }
 
   var tracker = {
     name: loggerSheet.getRange(range.getRow(), 1).getValue(),
-    row: range.getRow()
+    row: range.getRow(),
   };
   var ui = SpreadsheetApp.getUi();
-  var response = ui.prompt("Enter how much you want to add to the tracker " +
-    tracker.name +
-    ". (h.m)", ui.ButtonSet.OK_CANCEL);
+  var response = ui.prompt(
+    "Enter how much you want to add to the tracker " + tracker.name + ". (h.m)",
+    ui.ButtonSet.OK_CANCEL,
+  );
 
   if (response.getSelectedButton() == ui.Button.CANCEL) {
     Logger.log("aborted");
@@ -59,17 +58,17 @@ function addToTracker() {
   var todayTotal = newRawTodayTotal / 86400;
   var lastSession = (hours + minutes / 60) / 24;
   var values = [
-    [newRawTotal, newRawTodayTotal, total, todayTotal, day, lastSession]
+    [newRawTotal, newRawTodayTotal, total, todayTotal, day, lastSession],
   ];
-  var formats = [
-    ["#", "@", "[hh]:mm", "[hh]:mm", "dd/mm", "[hh]:mm"]
-  ];
+  var formats = [["#", "@", "[hh]:mm", "[hh]:mm", "dd/mm", "[hh]:mm"]];
 
   if (formats[0].length != values[0].length) {
     Logger.log("wotwot");
   }
 
-  loggerSheet.getRange(tracker.row, 2, 1, values[0].length).setValues(values)
+  loggerSheet
+    .getRange(tracker.row, 2, 1, values[0].length)
+    .setValues(values)
     .setNumberFormats(formats);
 
   return;

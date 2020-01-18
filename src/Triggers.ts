@@ -1,7 +1,3 @@
-// Compiled using ts2gas 1.6.0 (TypeScript 3.3.3)
-var exports = exports || {};
-var module = module || { exports: exports };
-
 function onFormSubmit(e) {
   Logger.log("row number passed: %s", e.range.getRow());
   e.range.setFontFamily("Roboto Mono");
@@ -9,15 +5,18 @@ function onFormSubmit(e) {
   Logger.log("logEntry ended");
   makeEvent(e.range.getRow());
   Logger.log("makeEvent ended");
-  FormApp.openById("15DrDtgMquviAVpbfg9LDG6pY3OKVi01D9sL48KCdHdM")
-    .deleteAllResponses();
+  FormApp.openById(
+    "15DrDtgMquviAVpbfg9LDG6pY3OKVi01D9sL48KCdHdM",
+  ).deleteAllResponses();
 }
 
 function onOpen() {
-  SpreadsheetApp.setActiveSheet(SpreadsheetApp.getActiveSpreadsheet()
-    .getSheetByName("CurrentTrackers"));
-  var range = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(
-    "GetTrackersForm").getRange("E2:E");
+  SpreadsheetApp.setActiveSheet(
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("CurrentTrackers"),
+  );
+  var range = SpreadsheetApp.getActiveSpreadsheet()
+    .getSheetByName("GetTrackersForm")
+    .getRange("E2:E");
   for (var row = 2; row < range.getHeight(); row++) {
     if (range.getCell(row, 1).isBlank()) {
       SpreadsheetApp.getUi().alert("Some rows are not logged");
@@ -25,13 +24,13 @@ function onOpen() {
     }
   }
   SpreadsheetApp.getUi()
-    .createMenu('**Varie**')
+    .createMenu("**Varie**")
     .addItem("Log where not logged", "logAll")
     .addItem("make events", "makeAll")
     .addSeparator()
-    .addItem("Add hh:mm to currently selected tracker", 'addToTracker')
+    .addItem("Add hh:mm to currently selected tracker", "addToTracker")
     .addToUi();
-};
+}
 
 function installableOnEdit(e) {
   var oldValue = e.oldValue;
@@ -43,7 +42,8 @@ function installableOnEdit(e) {
   var numRows = range.getNumRows();
   var curColumn = range.getColumn();
   var numColumns = range.getNumColumns();
-  var test = curSheet == "CurrentTrackers" &&
+  var test =
+    curSheet == "CurrentTrackers" &&
     curColumn == 1 &&
     numRows == 1 &&
     curRow > 1 &&
@@ -52,11 +52,19 @@ function installableOnEdit(e) {
     newValue === undefined;
   Logger.log(
     "\nsheet: %s\nrow: %s (%s selected)\ncolumn: %s (%s selected)\n bool: %s",
-    curSheet, curRow, numRows, curColumn, numColumns, test);
+    curSheet,
+    curRow,
+    numRows,
+    curColumn,
+    numColumns,
+    test,
+  );
   if (test) {
     var ui = SpreadsheetApp.getUi();
-    var result = ui.alert("delete tracker \"" + oldValue + "\" ?", ui.ButtonSet
-      .YES_NO);
+    var result = ui.alert(
+      'delete tracker "' + oldValue + '" ?',
+      ui.ButtonSet.YES_NO,
+    );
     if (result === ui.Button.YES) {
       var howManyDeletedEvents = deleteTracker(e.oldValue, range.getRow());
       if (howManyDeletedEvents > 0) {
