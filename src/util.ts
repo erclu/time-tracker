@@ -2,6 +2,10 @@ function addToTracker() {
   const loggerSheet = SpreadsheetApp.getActiveSheet();
   const range = loggerSheet.getActiveRange();
 
+  if (!range) {
+    throw new Error("no range selected");
+  }
+
   if (
     range.getSheet().getSheetName() != "CurrentTrackers" &&
     range.getRow() != 1 &&

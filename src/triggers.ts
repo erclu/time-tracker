@@ -1,61 +1,64 @@
-function onFormSubmit(e) {
-  Logger.log("row number passed: %s", e.range.getRow());
-  e.range.setFontFamily("Roboto Mono");
-  logEntry(e.range.getRow());
+function onFormSubmit(e: GoogleAppsScript.Events.SheetsOnFormSubmit) {
+  const rowNumber = e.range.getRow();
+  Logger.log("row number passed: %s", rowNumber);
+
+  logEntry(rowNumber);
   Logger.log("logEntry ended");
-  makeEvent(e.range.getRow());
+
+  makeEvent(rowNumber);
   Logger.log("makeEvent ended");
-  FormApp.openById(
-    "15DrDtgMquviAVpbfg9LDG6pY3OKVi01D9sL48KCdHdM",
-  ).deleteAllResponses();
+
+  CONFIG.form.deleteAllResponses();
 }
 
 function onOpen() {
-  SpreadsheetApp.setActiveSheet(
-    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("CurrentTrackers"),
-  );
-  const range = SpreadsheetApp.getActiveSpreadsheet()
-    .getSheetByName("GetTrackersForm")
-    .getRange("E2:E");
+  SpreadsheetApp.setActiveSheet(CONFIG.sheets.currentTrackers);
+
+  const range = CONFIG.sheets.trackersForm.getRange("E2:E");
+
   for (let row = 2; row < range.getHeight(); row++) {
     if (range.getCell(row, 1).isBlank()) {
       SpreadsheetApp.getUi().alert("Some rows are not logged");
       break;
     }
   }
+
   SpreadsheetApp.getUi()
     .createMenu("**Varie**")
-    .addItem("Log where not logged", "logAll")
-    .addItem("make events", "makeAll")
+    .addItem("Log where not logged", logAll.name)
+    .addItem("make events", makeAll.name)
     .addSeparator()
-    .addItem("Add hh:mm to currently selected tracker", "addToTracker")
+    .addItem("Add hh:mm to currently selected tracker", addToTracker.name)
     .addToUi();
 }
 
-function installableOnEdit(e) {
+function installableOnEdit(e: GoogleAppsScript.Events.SheetsOnEdit) {
   const oldValue = e.oldValue;
   const newValue = e.value;
   const range = e.range;
+
   Logger.log("old: %s - new: %s", oldValue, newValue);
-  const curSheet = range.getSheet().getSheetName();
-  const curRow = range.getRow();
+  const currentSheetName = range.getSheet().getSheetName();
+
+  const currentRow = range.getRow();
+  const currentColumn = range.getColumn();
+
   const numRows = range.getNumRows();
-  const curColumn = range.getColumn();
   const numColumns = range.getNumColumns();
   const test =
-    curSheet === "CurrentTrackers" &&
-    curColumn === 1 &&
+    currentSheetName === "CurrentTrackers" &&
+    currentColumn === 1 &&
     numRows === 1 &&
-    curRow > 1 &&
+    currentRow > 1 &&
     numColumns === 1 &&
     oldValue !== undefined &&
     newValue === undefined;
   Logger.log(
     "\nsheet: %s\nrow: %s (%s selected)\ncolumn: %s (%s selected)\n bool: %s",
-    curSheet,
-    curRow,
+    currentSheetName,
+    currentRow,
     numRows,
-    curColumn,
+    currentColumn,
     numColumns,
     test,
   );
@@ -72,7 +75,8 @@ function installableOnEdit(e) {
       }
     } else if (result === ui.Button.NO) {
       Logger.log("restoring old row name");
-      range.setValue(e.value.oldValue);
+      // range.setValue(e.value.oldValue);
+      range.setValue(e.oldValue);
     }
   } else {
     Logger.log("nothing changed");
