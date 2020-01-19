@@ -24,7 +24,7 @@ function onOpen() {
   }
 
   SpreadsheetApp.getUi()
-    .createMenu("**Varie**")
+    .createMenu("TimeTracker Menu")
     .addItem("Log where not logged", logAll.name)
     .addItem("make events", makeAll.name)
     .addSeparator()

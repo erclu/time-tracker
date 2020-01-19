@@ -18,12 +18,14 @@ function logEntry(row: number): void {
   Logger.log("updating CurrentTrackers");
 
   const tracker = {
-    name: getTrackers[0],
-    start: getTrackers[1],
-    end: getTrackers[2],
+    name: getTrackers[0] as string,
+    start: Number(getTrackers[1]),
+    end: Number(getTrackers[2]),
   };
 
-  const lastDiff = tracker.end.getTime() - tracker.start.getTime();
+  Logger.log(tracker.start);
+  Logger.log(tracker.end);
+  const lastDiff = tracker.end - tracker.start;
 
   //Logger.log("TRACKER\nname: %s\nstart: %s\nend: %s",tracker.name, tracker.start, tracker.end);
   const sheet = CONFIG.sheets.currentTrackers;
