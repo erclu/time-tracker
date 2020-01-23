@@ -1,6 +1,6 @@
 function makeEvent(row: number) {
+  // XXX is this needed?
   if (!row) {
-    Logger.log("makeEvent: no parameter passed");
     return;
   }
 
@@ -9,11 +9,9 @@ function makeEvent(row: number) {
   const trackersForm = CONFIG.sheets.trackersForm;
 
   const rowValues = trackersForm.getRange(row, 2, 1, 5).getValues()[0]; // get cols B to F
-  Logger.log(typeof rowValues[4]);
 
   if (rowValues[4]) {
     // if value of "Event made" column is true
-    Logger.log("event was made");
     return;
   }
 

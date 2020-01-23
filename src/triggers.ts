@@ -1,12 +1,8 @@
 function onFormSubmit(e: GoogleAppsScript.Events.SheetsOnFormSubmit) {
   const rowNumber = e.range.getRow();
-  Logger.log("row number passed: %s", rowNumber);
 
   logEntry(rowNumber);
-  Logger.log("logEntry ended");
-
   makeEvent(rowNumber);
-  Logger.log("makeEvent ended");
 
   CONFIG.form.deleteAllResponses();
 }
