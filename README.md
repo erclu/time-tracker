@@ -51,7 +51,13 @@ I do **_NOT_** use `clasp push --watch`. I use git as a protective layer around 
 
 A PowerShell script is provided to simplify this. It ensures the index is clean and moves around a git tag.
 
-<!-- FIXME some error with clasp pull messed up all files? -->
+---
+
+I DO NOT EVER USE `clasp pull`.
+
+It got messed up along the way and now it does not transpile correctly from js to ts.
+
+---
 
 ### VSCode
 
