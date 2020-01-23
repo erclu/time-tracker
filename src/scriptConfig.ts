@@ -1,5 +1,5 @@
 interface ScriptConfiguration {
-  calendar: GoogleAppsScript.Calendar.Calendar;
+  // calendar: GoogleAppsScript.Calendar.Calendar;
   form: GoogleAppsScript.Forms.Form;
   minimumEventDuration: number;
   sheets: {
@@ -10,18 +10,6 @@ interface ScriptConfiguration {
 
 // configuration is generated via IIFEs
 const CONFIG: ScriptConfiguration = {
-  calendar: (() => {
-    const calendarIdPropertyName = "CALENDAR_ID";
-    const calendarId = PropertiesService.getScriptProperties().getProperty(
-      calendarIdPropertyName,
-    );
-
-    if (!calendarId) {
-      throw new Error(`property "${calendarIdPropertyName}" not found`);
-    }
-
-    return CalendarApp.getCalendarById(calendarId);
-  })(),
   form: (() => {
     const formIdPropertyName = "FORM_ID";
 
