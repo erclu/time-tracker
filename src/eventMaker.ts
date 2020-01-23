@@ -35,3 +35,11 @@ function makeAll() {
     makeEvent(i);
   }
 }
+
+function deleteMatchingEvent(eventId: string): number {
+  const calendar = CONFIG.calendar;
+  const event = calendar.getEventById(eventId);
+
+  event.deleteEvent();
+  return 1;
+}
