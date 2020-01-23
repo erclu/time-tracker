@@ -33,48 +33,72 @@ function installableOnEdit(e: GoogleAppsScript.Events.SheetsOnEdit) {
   const newValue = e.value;
   const range = e.range;
 
-  Logger.log("old: %s - new: %s", oldValue, newValue);
-  const currentSheetName = range.getSheet().getSheetName();
+  // check conditions in order of importance
+  if (
+    range.getSheet().getSheetName() !==
+    CONFIG.sheets.currentTrackers.getSheetName()
+  ) {
+    console.info(
+      "not on correct sheet: %s !== %s",
+      range.getSheet().getSheetName(),
+      CONFIG.sheets.currentTrackers.getSheetName(),
+    );
+    return;
+  }
+
+  if (oldValue === undefined) {
+    console.info("not a valid tracker: %s", oldValue);
+    return;
+  }
+
+  if (newValue !== undefined) {
+    console.info("value has not been deleted: %s", newValue);
+    return;
+  }
+
+  if (range.getNumRows() !== 1) {
+    console.info("more than 1 tracker row selected: %s", range.getNumRows());
+    return;
+  }
+
+  if (range.getNumColumns() !== 1) {
+    console.info(
+      "more than 1 tracker column selected: %s",
+      range.getNumColumns(),
+    );
+    return;
+  }
 
   const currentRow = range.getRow();
   const currentColumn = range.getColumn();
 
-  const numRows = range.getNumRows();
-  const numColumns = range.getNumColumns();
-  const test =
-    currentSheetName === "CurrentTrackers" &&
-    currentColumn === 1 &&
-    numRows === 1 &&
-    currentRow > 1 &&
-    numColumns === 1 &&
-    oldValue !== undefined &&
-    newValue === undefined;
-  Logger.log(
-    "\nsheet: %s\nrow: %s (%s selected)\ncolumn: %s (%s selected)\n bool: %s",
-    currentSheetName,
-    currentRow,
-    numRows,
-    currentColumn,
-    numColumns,
-    test,
-  );
-  if (test) {
-    const ui = SpreadsheetApp.getUi();
-    const result = ui.alert(
-      'delete tracker "' + oldValue + '" ?',
-      ui.ButtonSet.YES_NO,
-    );
-    if (result === ui.Button.YES) {
-      const howManyDeletedEvents = deleteTracker(e.oldValue, range.getRow());
-      if (howManyDeletedEvents > 0) {
-        ui.alert("deleted " + howManyDeletedEvents + " event/s");
-      }
-    } else if (result === ui.Button.NO) {
-      Logger.log("restoring old row name");
-      // range.setValue(e.value.oldValue);
-      range.setValue(e.oldValue);
-    }
-  } else {
-    Logger.log("nothing changed");
+  if (currentRow === 1) {
+    console.info("header row selected");
+    return;
   }
+
+  if (currentColumn !== 1) {
+    console.info("wrong column selected");
+    return;
+  }
+
+  SpreadsheetApp.setActiveRange(
+    range.getSheet().setActiveRange(range.getSheet().getRange("A1")),
+  );
+
+  const ui = SpreadsheetApp.getUi();
+  const result = ui.alert(`delete tracker ${oldValue}?`, ui.ButtonSet.YES_NO);
+
+  if (result === ui.Button.YES) {
+    const howManyDeletedEvents = deleteTracker(e.oldValue, range.getRow());
+
+    ui.alert(`deleted ${howManyDeletedEvents} events`);
+  } else if (result === ui.Button.NO) {
+    console.info("restoring old row name");
+
+    range.setValue(oldValue);
+  } else {
+    console.warn("answered neither yes nor no");
+  }
+  // TODO what happens if alert canceled?
 }
