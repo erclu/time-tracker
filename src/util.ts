@@ -1,24 +1,40 @@
 function addToTracker() {
-  const loggerSheet = SpreadsheetApp.getActiveSheet();
-  const range = loggerSheet.getActiveRange();
+  const sheet = SpreadsheetApp.getActiveSheet();
 
-  if (!range) {
-    throw new Error("no range selected");
+  if (sheet.getSheetName() !== CONFIG.sheets.currentTrackers.getSheetName()) {
+    console.info("not on correct sheet");
+    return;
   }
 
-  if (
-    range.getSheet().getSheetName() !== "CurrentTrackers" &&
-    range.getRow() !== 1 &&
-    range.getNumRows() !== 1
-  ) {
+  const range = sheet.getActiveRange();
+
+  if (!range) {
+    console.error("no range selected");
+    return;
+  }
+
+  if (range.getRow() === 1) {
+    console.error("header row selected");
+    return;
+  }
+
+  if (range.getNumRows() !== 1) {
+    console.info("wrong number of rows selected");
     return;
   }
 
   const tracker = {
-    name: loggerSheet.getRange(range.getRow(), 1).getValue(),
+    name: sheet.getRange(range.getRow(), 1).getValue(),
     row: range.getRow(),
   };
+
+  addToGivenTracker(tracker);
+}
+
+function addToGivenTracker(tracker: { name: string; row: number }): void {
   const ui = SpreadsheetApp.getUi();
+  const sheet = CONFIG.sheets.currentTrackers;
+
   const response = ui.prompt(
     "Enter how much you want to add to the tracker " + tracker.name + ". (h.m)",
     ui.ButtonSet.OK_CANCEL,
@@ -52,7 +68,7 @@ function addToTracker() {
     return;
   }
 
-  const oldValues = loggerSheet.getRange(tracker.row, 2, 1, 5).getValues()[0];
+  const oldValues = sheet.getRange(tracker.row, 2, 1, 5).getValues()[0];
   const newRawTotal = oldValues[0] + hours * 3600 + minutes * 60;
   let newRawTodayTotal = hours * 3600 + minutes * 60;
   const lastDay = oldValues[4].toLocaleDateString();
@@ -64,9 +80,11 @@ function addToTracker() {
   const total = newRawTotal / 86400;
   const todayTotal = newRawTodayTotal / 86400;
   const lastSession = (hours + minutes / 60) / 24;
+
   const values = [
     [newRawTotal, newRawTodayTotal, total, todayTotal, day, lastSession],
   ];
+
   // TODO should find another way to manage cell formats
   // FIXME code duplication AAAAAAAAHH
   const formats = [["#", "@", "[hh]:mm", "[hh]:mm", "dd/mm/yy", "[hh]:mm"]];
@@ -75,12 +93,10 @@ function addToTracker() {
     console.error("format specified has the wrong number of columns");
   }
 
-  loggerSheet
+  sheet
     .getRange(tracker.row, 2, 1, values[0].length)
     .setValues(values)
     .setNumberFormats(formats);
-
-  return;
 }
 
 /**
