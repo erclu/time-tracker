@@ -4,9 +4,9 @@ function makeEvent(row: number) {
     return;
   }
 
-  const calendar = CalendarApp.getCalendarById(calendarId);
-  const minEventLength = CONFIG.minimumEventDuration;
-  const trackersForm = CONFIG.sheets.trackersForm;
+  const calendar = CONFIG.getCalendar();
+  const minEventLength = SCRIPT_PROPERTIES.minimumEventDuration;
+  const trackersForm = CONFIG.sheets.getTrackersForm();
 
   const rowValues = trackersForm.getRange(row, 2, 1, 5).getValues()[0]; // get cols B to F
 
@@ -29,7 +29,7 @@ function makeEvent(row: number) {
 }
 
 function makeAll() {
-  const rows = CONFIG.sheets.trackersForm.getLastRow();
+  const rows = CONFIG.sheets.getTrackersForm().getLastRow();
 
   for (let i = 2; i <= rows; i++) {
     makeEvent(i);
@@ -37,22 +37,9 @@ function makeAll() {
 }
 
 function deleteMatchingEvent(eventId: string): number {
-  const calendar = CalendarApp.getCalendarById(calendarId);
+  const calendar = CONFIG.getCalendar();
   const event = calendar.getEventById(eventId);
 
   event.deleteEvent();
   return 1;
 }
-
-const calendarId = (() => {
-  const calendarIdPropertyName = "CALENDAR_ID";
-  const calendarIdProperty = PropertiesService.getScriptProperties().getProperty(
-    calendarIdPropertyName,
-  );
-
-  if (!calendarIdProperty) {
-    throw new Error(`property "${calendarIdPropertyName}" not found`);
-  }
-
-  return calendarIdProperty;
-})();

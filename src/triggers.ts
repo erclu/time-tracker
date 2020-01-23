@@ -4,13 +4,13 @@ function onFormSubmit(e: GoogleAppsScript.Events.SheetsOnFormSubmit) {
   logEntry(rowNumber);
   makeEvent(rowNumber);
 
-  CONFIG.form.deleteAllResponses();
+  CONFIG.getForm().deleteAllResponses();
 }
 
 function onOpen() {
-  SpreadsheetApp.setActiveSheet(CONFIG.sheets.currentTrackers);
+  SpreadsheetApp.setActiveSheet(CONFIG.sheets.getCurrentTrackers());
 
-  const range = CONFIG.sheets.trackersForm.getRange("E2:E");
+  const range = CONFIG.sheets.getTrackersForm().getRange("E2:E");
 
   for (let row = 2; row < range.getHeight(); row++) {
     if (range.getCell(row, 1).isBlank()) {
@@ -36,12 +36,12 @@ function installableOnEdit(e: GoogleAppsScript.Events.SheetsOnEdit) {
   // check conditions in order of importance
   if (
     range.getSheet().getSheetName() !==
-    CONFIG.sheets.currentTrackers.getSheetName()
+    CONFIG.sheets.getCurrentTrackers().getSheetName()
   ) {
     console.info(
       "not on correct sheet: %s !== %s",
       range.getSheet().getSheetName(),
-      CONFIG.sheets.currentTrackers.getSheetName(),
+      CONFIG.sheets.getCurrentTrackers().getSheetName(),
     );
     return;
   }

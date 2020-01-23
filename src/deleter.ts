@@ -11,8 +11,8 @@ function deleteTracker(trackerName: string, logsRow: number) {
     return 0;
   }
 
-  const logsSheet = CONFIG.sheets.currentTrackers;
-  const trackersForm = CONFIG.sheets.trackersForm;
+  const logsSheet = CONFIG.sheets.getCurrentTrackers();
+  const trackersForm = CONFIG.sheets.getTrackersForm();
 
   let deletedEvents = 0;
 
