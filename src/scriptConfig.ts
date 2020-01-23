@@ -11,7 +11,7 @@ interface ScriptConfiguration {
 // configuration is generated via IIFEs
 const CONFIG: ScriptConfiguration = {
   calendar: (() => {
-    const calendarIdPropertyName = "calendarId";
+    const calendarIdPropertyName = "CALENDAR_ID";
     const calendarId = PropertiesService.getScriptProperties().getProperty(
       calendarIdPropertyName,
     );
@@ -23,7 +23,7 @@ const CONFIG: ScriptConfiguration = {
     return CalendarApp.getCalendarById(calendarId);
   })(),
   form: (() => {
-    const formIdPropertyName = "formId";
+    const formIdPropertyName = "FORM_ID";
 
     const formId = PropertiesService.getScriptProperties().getProperty(
       formIdPropertyName,
@@ -37,7 +37,7 @@ const CONFIG: ScriptConfiguration = {
   })(),
   // This is the minimum event duration in milliseconds
   minimumEventDuration: (() => {
-    const propertyName = "minimumEventDurationMinutes";
+    const propertyName = "MINIMUM_EVENT_DURATION_MINUTES";
 
     const minimumEventDurationMinutes = PropertiesService.getScriptProperties().getProperty(
       propertyName,
@@ -47,7 +47,7 @@ const CONFIG: ScriptConfiguration = {
       throw new Error(`property ${propertyName} not found`);
     }
 
-    return 1000 * 60 * Number(minimumEventDurationMinutes);
+    return 1000 * 60 * parseInt(minimumEventDurationMinutes, 10);
   })(),
   sheets: (() => {
     const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
