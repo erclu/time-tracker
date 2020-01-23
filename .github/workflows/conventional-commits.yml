@@ -7,7 +7,7 @@ env:
 
 jobs:
   commitsar:
-    name: Check conformity to spec
+    name: Check conformity to Conventional Commits specification
     runs-on: ubuntu-latest
 
     steps:

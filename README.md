@@ -2,6 +2,12 @@
 
 This project uses clasp to develop locally Google's [Apps Scripts](https://developers.google.com/apps-script).
 
+## Badges
+
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](https://commitizen.github.io/cz-cli/)
+![conventional commits badge](https://github.com/erclu/time-tracker/workflows/Conventional%20Commits/badge.svg)
+![source files best practices badge](https://github.com/erclu/time-tracker/workflows/Best%20practices%20for%20source%20files/badge.svg)
+
 ## An exceptional(ly bad) trick
 
 Use a google form as target for an HTTP POST, as explained in [this stack overflow answer](https://stackoverflow.com/a/47444396)
