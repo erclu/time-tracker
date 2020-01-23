@@ -7,9 +7,9 @@ function addToTracker() {
   }
 
   if (
-    range.getSheet().getSheetName() != "CurrentTrackers" &&
-    range.getRow() != 1 &&
-    range.getNumRows() != 1
+    range.getSheet().getSheetName() !== "CurrentTrackers" &&
+    range.getRow() !== 1 &&
+    range.getNumRows() !== 1
   ) {
     return;
   }
@@ -24,8 +24,8 @@ function addToTracker() {
     ui.ButtonSet.OK_CANCEL,
   );
 
-  if (response.getSelectedButton() == ui.Button.CANCEL) {
-    Logger.log("aborted");
+  if (response.getSelectedButton() === ui.Button.CANCEL) {
+    console.info("addToTracker aborted");
     return;
   }
 
@@ -37,18 +37,18 @@ function addToTracker() {
   switch (timeArray.length) {
     case 1:
       hours = 0;
-      minutes = parseInt(timeArray[0]);
+      minutes = parseInt(timeArray[0], 10);
       break;
     case 2:
-      hours = parseInt(timeArray[0]);
-      minutes = parseInt(timeArray[1]);
+      hours = parseInt(timeArray[0], 10);
+      minutes = parseInt(timeArray[1], 10);
       break;
     default:
-      Logger.log("wrong something");
+      console.warn("timeArray has the wrong length");
       return;
   }
   if (minutes > 59 || minutes < 0) {
-    Logger.log("wrong minutes");
+    console.error("not a valid minutes value: %s", minutes);
     return;
   }
 
@@ -57,7 +57,7 @@ function addToTracker() {
   let newRawTodayTotal = hours * 3600 + minutes * 60;
   const lastDay = oldValues[4].toLocaleDateString();
   const day = new Date().toLocaleDateString();
-  if (lastDay == day) {
+  if (lastDay === day) {
     newRawTodayTotal += Number(oldValues[1]);
   }
 
@@ -67,10 +67,12 @@ function addToTracker() {
   const values = [
     [newRawTotal, newRawTodayTotal, total, todayTotal, day, lastSession],
   ];
-  const formats = [["#", "@", "[hh]:mm", "[hh]:mm", "dd/mm", "[hh]:mm"]];
+  // TODO should find another way to manage cell formats
+  // FIXME code duplication AAAAAAAAHH
+  const formats = [["#", "@", "[hh]:mm", "[hh]:mm", "dd/mm/yy", "[hh]:mm"]];
 
-  if (formats[0].length != values[0].length) {
-    Logger.log("wotwot");
+  if (formats[0].length !== values[0].length) {
+    console.error("format specified has the wrong number of columns");
   }
 
   loggerSheet

@@ -1,8 +1,6 @@
 function logEntry(row: number): void {
-  Logger.log("logEntry started");
-
+  // XXX is this needed?
   if (!row) {
-    Logger.log("logEntry: no parameter passed");
     return;
   }
 
@@ -10,24 +8,19 @@ function logEntry(row: number): void {
     .getRange(row, 2, 1, 4)
     .getValues()[0];
 
+  // if value of "logged" column is true
   if (getTrackers[3]) {
-    // if value of "logged" column is true
-    Logger.log("row was already logged");
     return;
   }
-  Logger.log("updating CurrentTrackers");
 
   const tracker = {
     name: getTrackers[0] as string,
     start: Number(getTrackers[1]),
-    end: Number(getTrackers[2]),
+    end: Number(getTrackers[2]), // tslint:disable-line: object-literal-sort-keys
   };
 
-  Logger.log(tracker.start);
-  Logger.log(tracker.end);
   const lastDiff = tracker.end - tracker.start;
 
-  //Logger.log("TRACKER\nname: %s\nstart: %s\nend: %s",tracker.name, tracker.start, tracker.end);
   const sheet = CONFIG.sheets.currentTrackers;
   let numTrackers = sheet.getLastRow() - 1;
 
@@ -53,17 +46,24 @@ function logEntry(row: number): void {
 
     lastDay = oldValues[4].toLocaleDateString();
   } else {
-    //no matching tracker found; initialize a new one;
+    // no matching tracker found; initialize a new one;
     rawTotal = 0;
     rawTodayTotal = 0;
     lastDay = -1;
   }
   rawTotal += lastDiff;
   const day = new Date(+tracker.start * 1000).toLocaleDateString();
-  day == lastDay ? (rawTodayTotal += lastDiff) : (rawTodayTotal = lastDiff);
+
+  if (day === lastDay) {
+    rawTodayTotal += lastDiff;
+  } else {
+    rawTodayTotal = lastDiff;
+  }
+
   const total = rawTotal / 86400;
   const todayTotal = rawTodayTotal / 86400;
   const lastSession = (+tracker.end - +tracker.start) / 86400;
+  // TODO should use an interface/class
   const values = [
     [
       tracker.name,
@@ -75,9 +75,13 @@ function logEntry(row: number): void {
       lastSession,
     ],
   ]; // 7 columns
-  const formats = [["@", "#", "#", "[hh]:mm", "[hh]:mm", "dd/mm", "[hh]:mm"]];
-  if (formats[0].length != values[0].length) {
-    Logger.log("wotwot");
+
+  // TODO improve this, it kinda sucks
+  const formats = [
+    ["@", "#", "#", "[hh]:mm", "[hh]:mm", "dd/mm/yy", "[hh]:mm"],
+  ];
+  if (formats[0].length !== values[0].length) {
+    console.error("format specified has the wrong number of columns");
   }
   sheet
     .insertRowAfter(1)
@@ -90,7 +94,6 @@ function logEntry(row: number): void {
 
 function logAll() {
   const rows = CONFIG.sheets.trackersForm.getLastRow();
-  Logger.log(rows);
 
   for (let i = 2; i <= rows; i++) {
     logEntry(i);
@@ -104,11 +107,10 @@ function findMatchingTrackerRow(name: string) {
   const values = sheet.getRange(2, 1, maxRows).getValues();
 
   for (let index = 0; index < values.length; index++) {
-    if (values[index][0] == name) {
+    if (values[index][0] === name) {
       return index + 2;
     }
   }
 
-  //Logger.log("found matching tracker in row number: %s", index + 2);
   return false;
 }

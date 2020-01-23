@@ -7,6 +7,7 @@ function testDelete() {
 function deleteTracker(trackerName: string, logsRow: number) {
   // XXX why is this needed?
   if (!trackerName || !logsRow) {
+    console.warn("no tracker name or log row given to function");
     return 0;
   }
 
@@ -27,7 +28,6 @@ function deleteTracker(trackerName: string, logsRow: number) {
       const eventMade = values[4];
 
       if (eventMade) {
-        Logger.log("found matching event");
         deletedEvents += deleteMatchingEvent(values[5]);
       }
 
@@ -45,7 +45,6 @@ function deleteMatchingEvent(eventId: string): number {
   const calendar = CONFIG.calendar;
   const event = calendar.getEventById(eventId);
 
-  Logger.log('deleted 1 event for tracker "' + event.getTitle() + '"');
   event.deleteEvent();
   return 1;
 }
