@@ -4,7 +4,8 @@ function logEntry(row: number): void {
     return;
   }
 
-  const getTrackers = CONFIG.sheets.trackersForm
+  const getTrackers = CONFIG.sheets
+    .getTrackersForm()
     .getRange(row, 2, 1, 4)
     .getValues()[0];
 
@@ -21,7 +22,7 @@ function logEntry(row: number): void {
 
   const lastDiff = tracker.end - tracker.start;
 
-  const sheet = CONFIG.sheets.currentTrackers;
+  const sheet = CONFIG.sheets.getCurrentTrackers();
   let numTrackers = sheet.getLastRow() - 1;
 
   if (!numTrackers) {
@@ -89,11 +90,14 @@ function logEntry(row: number): void {
     .setValues(values)
     .setNumberFormats(formats); // this one should add the date
 
-  CONFIG.sheets.trackersForm.getRange(row, 5, 1, 1).setValue(true);
+  CONFIG.sheets
+    .getTrackersForm()
+    .getRange(row, 5, 1, 1)
+    .setValue(true);
 }
 
 function logAll() {
-  const rows = CONFIG.sheets.trackersForm.getLastRow();
+  const rows = CONFIG.sheets.getTrackersForm().getLastRow();
 
   for (let i = 2; i <= rows; i++) {
     logEntry(i);
@@ -101,7 +105,7 @@ function logAll() {
 }
 
 function findMatchingTrackerRow(name: string) {
-  const sheet = CONFIG.sheets.currentTrackers;
+  const sheet = CONFIG.sheets.getCurrentTrackers();
   const maxRows = sheet.getMaxRows();
 
   const values = sheet.getRange(2, 1, maxRows).getValues();

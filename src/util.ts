@@ -1,7 +1,9 @@
 function addToTracker() {
   const sheet = SpreadsheetApp.getActiveSheet();
 
-  if (sheet.getSheetName() !== CONFIG.sheets.currentTrackers.getSheetName()) {
+  if (
+    sheet.getSheetName() !== CONFIG.sheets.getCurrentTrackers().getSheetName()
+  ) {
     console.info("not on correct sheet");
     return;
   }
@@ -33,7 +35,7 @@ function addToTracker() {
 
 function addToGivenTracker(tracker: { name: string; row: number }): void {
   const ui = SpreadsheetApp.getUi();
-  const sheet = CONFIG.sheets.currentTrackers;
+  const sheet = CONFIG.sheets.getCurrentTrackers();
 
   const response = ui.prompt(
     "Enter how much you want to add to the tracker " + tracker.name + ". (h.m)",
