@@ -4,22 +4,18 @@
     "lib": [
       "esnext"
     ],
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
     "experimentalDecorators": true,
-    // -----------------
-    "plugins": [
-      {
-        "name": "typescript-tslint-plugin",
-        "alwaysShowRuleFailuresAsWarnings": false,
-        "suppressWhileTypeErrorsPresent": false
-      }
-    ],
     "forceConsistentCasingInFileNames": true,
-    "noImplicitReturns": true,
-    "strict": true,
     "newLine": "lf",
+    "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "removeComments": true
+    "pretty": true,
+    "removeComments": true,
+    "sourceMap": true,
+    "strict": true
   },
   "exclude": [
     "node_modules"
