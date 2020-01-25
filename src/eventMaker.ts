@@ -5,7 +5,7 @@ function makeEvent(row: number) {
   }
 
   const calendar = CONFIG.getCalendar();
-  const minEventLength = SCRIPT_PROPERTIES.minimumEventDuration;
+  const minEventLength = CONFIG.minimumEventDuration;
   const trackersForm = CONFIG.sheets.getTrackersForm();
 
   const rowValues = trackersForm.getRange(row, 2, 1, 5).getValues()[0]; // get cols B to F
