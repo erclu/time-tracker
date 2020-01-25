@@ -1,10 +1,10 @@
-function testDelete() {
+const testDelete = (): void => {
   const name = "manuale";
   const row = 2;
   deleteTracker(name, row);
-}
+};
 
-function deleteTracker(trackerName: string, logsRow: number) {
+const deleteTracker = (trackerName: string, logsRow: number): number => {
   // XXX why is this needed?
   if (!trackerName || !logsRow) {
     console.warn("no tracker name or log row given to function");
@@ -39,4 +39,4 @@ function deleteTracker(trackerName: string, logsRow: number) {
   logsSheet.deleteRow(logsRow);
 
   return deletedEvents;
-}
+};

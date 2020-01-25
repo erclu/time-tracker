@@ -1,4 +1,4 @@
-function logEntry(row: number): void {
+const logEntry = (row: number): void => {
   // XXX is this needed?
   if (!row) {
     return;
@@ -94,9 +94,10 @@ function logEntry(row: number): void {
     .getTrackersForm()
     .getRange(row, 5, 1, 1)
     .setValue(true);
-}
+};
 
-function logAll() {
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
+function logAll(): void {
   const rows = CONFIG.sheets.getTrackersForm().getLastRow();
 
   for (let i = 2; i <= rows; i++) {
@@ -104,7 +105,7 @@ function logAll() {
   }
 }
 
-function findMatchingTrackerRow(name: string) {
+const findMatchingTrackerRow = (name: string): number | false => {
   const sheet = CONFIG.sheets.getCurrentTrackers();
   const maxRows = sheet.getMaxRows();
 
@@ -117,4 +118,4 @@ function findMatchingTrackerRow(name: string) {
   }
 
   return false;
-}
+};

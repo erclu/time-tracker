@@ -7,7 +7,7 @@
   },
   "description": "",
   "scripts": {
-    "lint": "tsc --noEmit && eslint '*/**/*.{js,jsx,ts,tsx}' --quiet --fix",
+    "lint": "tsc --noEmit && eslint \"**/*.{js,jsx,ts,tsx}\" --quiet --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "erclu",
@@ -19,7 +19,7 @@
     "@typescript-eslint/parser": "^2.17.0",
     "eslint": "^6.8.0",
     "eslint-plugin-prefer-arrow": "^1.1.7",
-    "inquirer": "^6.0.0",
+    "inquirer": "^6.5.2",
     "prettier": "1.19.1",
     "ts2gas": "^3.4.4",
     "typescript": "^3.7.5"

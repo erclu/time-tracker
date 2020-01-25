@@ -1,4 +1,4 @@
-function addToTracker() {
+const addToTracker = (): void => {
   const sheet = SpreadsheetApp.getActiveSheet();
 
   if (
@@ -31,9 +31,9 @@ function addToTracker() {
   };
 
   addToGivenTracker(tracker);
-}
+};
 
-function addToGivenTracker(tracker: { name: string; row: number }): void {
+const addToGivenTracker = (tracker: { name: string; row: number }): void => {
   const ui = SpreadsheetApp.getUi();
   const sheet = CONFIG.sheets.getCurrentTrackers();
 
@@ -99,12 +99,4 @@ function addToGivenTracker(tracker: { name: string; row: number }): void {
     .getRange(tracker.row, 2, 1, values[0].length)
     .setValues(values)
     .setNumberFormats(formats);
-}
-
-/**
- * converts to UTC Date object
- * @param epochS epoch time in seconds
- */
-function EpochToUTC(epochS: number) {
-  return new Date(epochS * 1000);
-}
+};

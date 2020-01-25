@@ -1,11 +1,11 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-interface ScriptProperties {
+type ScriptPropertiesType = {
+  authToken: string;
   calendarId: string;
   formId: string;
   rawMinimumEventDuration: string;
-}
+};
 
-interface SafeGetters {
+type SafeGetters = {
   minimumEventDuration: number;
   sheets: {
     getCurrentTrackers(): GoogleAppsScript.Spreadsheet.Sheet;
@@ -13,7 +13,7 @@ interface SafeGetters {
   };
   getCalendar(): GoogleAppsScript.Calendar.Calendar;
   getForm(): GoogleAppsScript.Forms.Form;
-}
+};
 
 const safeGetProperties = (propertyName: string): string => {
   const propertyValue = PropertiesService.getScriptProperties().getProperty(
@@ -27,16 +27,17 @@ const safeGetProperties = (propertyName: string): string => {
   return propertyValue;
 };
 
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+
 // Properties are extracted via IIFEs
-const SCRIPT_PROPERTIES: ScriptProperties = {
+const SCRIPT_PROPERTIES: ScriptPropertiesType = {
+  authToken: (() => safeGetProperties("AUTH_TOKEN"))(),
   calendarId: (() => safeGetProperties("CALENDAR_ID"))(),
   formId: (() => safeGetProperties("FORM_ID"))(),
   rawMinimumEventDuration: (() =>
     safeGetProperties("MINIMUM_EVENT_DURATION_MINUTES"))(),
 };
 
-// usage in different file does not get picked up.
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const CONFIG: SafeGetters = {
   getCalendar: () => CalendarApp.getCalendarById(SCRIPT_PROPERTIES.calendarId),
   getForm: () => FormApp.openById(SCRIPT_PROPERTIES.formId),
@@ -64,3 +65,4 @@ const CONFIG: SafeGetters = {
     };
   })(),
 };
+/* eslint-enable @typescript-eslint/explicit-function-return-type */
