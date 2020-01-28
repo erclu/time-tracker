@@ -4,9 +4,13 @@ This project uses clasp to develop locally Google's [Apps Scripts](https://devel
 
 ## Badges
 
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](https://commitizen.github.io/cz-cli/)
-![conventional commits badge](https://github.com/erclu/time-tracker/workflows/Conventional%20Commits/badge.svg)
-![source files best practices badge](https://github.com/erclu/time-tracker/workflows/Best%20practices%20for%20source%20files/badge.svg)
+<p align="center">
+  <img alt="linter status" src="https://github.com/erclu/auto-assigner/workflows/Run%20code%20linter/badge.svg"/>
+
+  <img alt="commitizen action status" src="https://github.com/erclu/time-tracker/workflows/Conventional%20Commits/badge.svg" />
+
+  <img alt="typescript-action status" src="https://github.com/erclu/time-tracker/workflows/Best%20practices%20for%20source%20files/badge.svg" />
+</p>
 
 ## An exceptional(ly bad) trick
 
