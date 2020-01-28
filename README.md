@@ -4,13 +4,13 @@ This project uses clasp to develop locally Google's [Apps Scripts](https://devel
 
 ## Badges
 
-<p align="center">
-  <img alt="linter status" src="https://github.com/erclu/auto-assigner/workflows/Run%20code%20linter/badge.svg"/>
+<!-- TODO add tests badge -->
 
-  <img alt="commitizen action status" src="https://github.com/erclu/time-tracker/workflows/Conventional%20Commits/badge.svg" />
+![Linter develop status](https://github.com/erclu/time-tracker/workflows/Linter/badge.svg?branch=develop)
 
-  <img alt="typescript-action status" src="https://github.com/erclu/time-tracker/workflows/Best%20practices%20for%20source%20files/badge.svg" />
-</p>
+![Conventional Commits](https://github.com/erclu/time-tracker/workflows/Conventional%20Commits/badge.svg)
+
+![Best practices for source files](https://github.com/erclu/time-tracker/workflows/Best%20practices%20for%20source%20files/badge.svg)
 
 ## An exceptional(ly bad) trick
 

@@ -5,6 +5,7 @@ on: # rebuild any PRs and main branch changes
   push:
     branches:
       - master
+      - develop
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

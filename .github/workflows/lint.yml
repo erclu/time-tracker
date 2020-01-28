@@ -5,10 +5,10 @@ on: # rebuild any PRs and main branch changes
   push:
     branches:
       - master
-
+      - develop
 
 jobs:
-  check-bom:
+  lint:
     name: run ESLint
     runs-on: ubuntu-latest
 
