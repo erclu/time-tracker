@@ -1,4 +1,4 @@
-const makeEvent = (row: number): void => {
+function makeEvent(row: number): void {
   // XXX is this needed?
   if (!row) {
     return;
@@ -27,7 +27,7 @@ const makeEvent = (row: number): void => {
 
     trackersForm.getRange(row, 6, 1, 2).setValues([[true, eventId]]);
   }
-};
+}
 
 function makeAll(): void {
   const rows = CONFIG.sheets.getTrackersForm().getLastRow();
@@ -37,10 +37,10 @@ function makeAll(): void {
   }
 }
 
-const deleteMatchingEvent = (eventId: string): number => {
+function deleteMatchingEvent(eventId: string): number {
   const calendar = CONFIG.getCalendar();
   const event = calendar.getEventById(eventId);
 
   event.deleteEvent();
   return 1;
-};
+}

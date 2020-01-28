@@ -15,7 +15,7 @@ type SafeGetters = {
   getForm(): GoogleAppsScript.Forms.Form;
 };
 
-const safeGetProperties = (propertyName: string): string => {
+function safeGetProperties(propertyName: string): string {
   const propertyValue = PropertiesService.getScriptProperties().getProperty(
     propertyName,
   );
@@ -25,9 +25,7 @@ const safeGetProperties = (propertyName: string): string => {
   }
 
   return propertyValue;
-};
-
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
+}
 
 // Properties are extracted via IIFEs
 const SCRIPT_PROPERTIES: ScriptPropertiesType = {

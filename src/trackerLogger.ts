@@ -1,9 +1,4 @@
-const logEntry = (row: number): void => {
-  // XXX is this needed?
-  if (!row) {
-    return;
-  }
-
+function logEntry(row: number): void {
   const getTrackers = CONFIG.sheets
     .getTrackersForm()
     .getRange(row, 2, 1, 4)
@@ -17,7 +12,8 @@ const logEntry = (row: number): void => {
   const tracker = {
     name: getTrackers[0] as string,
     start: Number(getTrackers[1]),
-    end: Number(getTrackers[2]), // tslint:disable-line: object-literal-sort-keys
+    // tslint:disable-next-line: object-literal-sort-keys
+    end: Number(getTrackers[2]),
   };
 
   const lastDiff = tracker.end - tracker.start;
@@ -95,7 +91,7 @@ const logEntry = (row: number): void => {
     .getTrackersForm()
     .getRange(row, 5, 1, 1)
     .setValue(true);
-};
+}
 
 function logAll(): void {
   const rows = CONFIG.sheets.getTrackersForm().getLastRow();
@@ -105,7 +101,7 @@ function logAll(): void {
   }
 }
 
-const findMatchingTrackerRow = (name: string): number | false => {
+function findMatchingTrackerRow(name: string): number | false {
   const sheet = CONFIG.sheets.getCurrentTrackers();
   const maxRows = sheet.getMaxRows();
 
@@ -118,4 +114,4 @@ const findMatchingTrackerRow = (name: string): number | false => {
   }
 
   return false;
-};
+}
