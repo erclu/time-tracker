@@ -7,6 +7,7 @@
       "label": "commitizen",
       "type": "shell",
       "command": "git cz",
+      "detail": "commit using commitizen CLI",
       "presentation": {
         "reveal": "always",
         "focus": true,
@@ -34,5 +35,23 @@
         "isDefault": true
       }
     },
+    {
+      "type": "npm",
+      "script": "lint",
+      "problemMatcher": [
+        "$eslint-stylish",
+        "$tsc"
+      ]
+    },
+    {
+      "type": "npm",
+      "script": "format",
+      "problemMatcher": []
+    },
+    {
+      "type": "npm",
+      "script": "format-check",
+      "problemMatcher": []
+    }
   ]
 }
