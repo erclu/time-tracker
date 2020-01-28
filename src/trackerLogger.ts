@@ -30,7 +30,8 @@ const logEntry = (row: number): void => {
     numTrackers++;
   }
 
-  const matchingTrackerRow = findMatchingTrackerRow(tracker.name); // is index + 2 or false
+  // is index + 2 or false
+  const matchingTrackerRow = findMatchingTrackerRow(tracker.name);
 
   let lastDay;
   let rawTotal;
@@ -96,7 +97,6 @@ const logEntry = (row: number): void => {
     .setValue(true);
 };
 
-// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 function logAll(): void {
   const rows = CONFIG.sheets.getTrackersForm().getLastRow();
 

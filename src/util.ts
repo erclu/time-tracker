@@ -33,7 +33,7 @@ const addToTracker = (): void => {
   addToGivenTracker(tracker);
 };
 
-const addToGivenTracker = (tracker: { name: string; row: number }): void => {
+const addToGivenTracker = (tracker: {name: string; row: number}): void => {
   const ui = SpreadsheetApp.getUi();
   const sheet = CONFIG.sheets.getCurrentTrackers();
 

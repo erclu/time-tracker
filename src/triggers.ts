@@ -1,4 +1,3 @@
-/* eslint-disable prefer-arrow/prefer-arrow-functions */
 function onFormSubmit(e: GoogleAppsScript.Events.SheetsOnFormSubmit): void {
   const rowNumber = e.range.getRow();
 

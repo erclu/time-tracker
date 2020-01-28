@@ -8,7 +8,8 @@ const makeEvent = (row: number): void => {
   const minEventLength = CONFIG.minimumEventDuration;
   const trackersForm = CONFIG.sheets.getTrackersForm();
 
-  const rowValues = trackersForm.getRange(row, 2, 1, 5).getValues()[0]; // get cols B to F
+  // get cols B to F
+  const rowValues = trackersForm.getRange(row, 2, 1, 5).getValues()[0];
 
   if (rowValues[4]) {
     // if value of "Event made" column is true
@@ -28,7 +29,6 @@ const makeEvent = (row: number): void => {
   }
 };
 
-// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 function makeAll(): void {
   const rows = CONFIG.sheets.getTrackersForm().getLastRow();
 
