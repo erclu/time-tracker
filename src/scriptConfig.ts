@@ -1,21 +1,19 @@
-interface ScriptProperties {
+type ScriptPropertiesType = {
+  authToken: string;
   calendarId: string;
   formId: string;
-  minimumEventDuration: number;
-  sheetNames: {
-    currentTrackers: string;
-    trackersForm: string;
-  };
-}
+  rawMinimumEventDuration: string;
+};
 
-interface SafeGetters {
+type SafeGetters = {
+  minimumEventDuration: number;
   sheets: {
     getCurrentTrackers(): GoogleAppsScript.Spreadsheet.Sheet;
     getTrackersForm(): GoogleAppsScript.Spreadsheet.Sheet;
   };
   getCalendar(): GoogleAppsScript.Calendar.Calendar;
   getForm(): GoogleAppsScript.Forms.Form;
-}
+};
 
 function safeGetProperties(propertyName: string): string {
   const propertyValue = PropertiesService.getScriptProperties().getProperty(
@@ -30,47 +28,39 @@ function safeGetProperties(propertyName: string): string {
 }
 
 // Properties are extracted via IIFEs
-const SCRIPT_PROPERTIES: ScriptProperties = {
+const SCRIPT_PROPERTIES: ScriptPropertiesType = {
+  authToken: (() => safeGetProperties("AUTH_TOKEN"))(),
   calendarId: (() => safeGetProperties("CALENDAR_ID"))(),
   formId: (() => safeGetProperties("FORM_ID"))(),
-  // This is the minimum event duration in milliseconds
-  minimumEventDuration: (() => {
-    const propertyValue = safeGetProperties("MINIMUM_EVENT_DURATION_MINUTES");
-
-    return 1000 * 60 * parseInt(propertyValue, 10);
-  })(),
-  sheetNames: (() => {
-    const currentTrackers = "CurrentTrackers";
-    const trackersForm = "GetTrackersForm";
-
-    const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-    if (!spreadsheet.getSheetByName(currentTrackers)) {
-      throw new Error(`sheet ${currentTrackers} not found`);
-    }
-    if (!spreadsheet.getSheetByName(trackersForm)) {
-      throw new Error(`sheet ${trackersForm} not found`);
-    }
-
-    return {
-      currentTrackers,
-      trackersForm,
-    };
-  })(),
+  rawMinimumEventDuration: (() =>
+    safeGetProperties("MINIMUM_EVENT_DURATION_MINUTES"))(),
 };
 
 const CONFIG: SafeGetters = {
   getCalendar: () => CalendarApp.getCalendarById(SCRIPT_PROPERTIES.calendarId),
   getForm: () => FormApp.openById(SCRIPT_PROPERTIES.formId),
+  minimumEventDuration: (() =>
+    1000 * 60 * parseInt(SCRIPT_PROPERTIES.rawMinimumEventDuration, 10))(),
   sheets: (() => {
+    const currentTrackersName = "CurrentTrackers";
+    const trackersFormName = "GetTrackersForm";
+
+    const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+
+    const currentTrackers = spreadsheet.getSheetByName(currentTrackersName);
+    if (!currentTrackers) {
+      throw new Error(`sheet ${currentTrackersName} not found`);
+    }
+
+    const trackersForm = spreadsheet.getSheetByName(trackersFormName);
+    if (!trackersForm) {
+      throw new Error(`sheet ${trackersFormName} not found`);
+    }
+
     return {
-      getCurrentTrackers: () =>
-        SpreadsheetApp.getActiveSpreadsheet().getSheetByName(
-          SCRIPT_PROPERTIES.sheetNames.currentTrackers,
-        )!,
-      getTrackersForm: () =>
-        SpreadsheetApp.getActiveSpreadsheet().getSheetByName(
-          SCRIPT_PROPERTIES.sheetNames.trackersForm,
-        )!,
+      getCurrentTrackers: () => currentTrackers,
+      getTrackersForm: () => trackersForm,
     };
   })(),
 };
+/* eslint-enable @typescript-eslint/explicit-function-return-type */

@@ -1,4 +1,4 @@
-function addToTracker() {
+function addToTracker(): void {
   const sheet = SpreadsheetApp.getActiveSheet();
 
   if (
@@ -33,7 +33,7 @@ function addToTracker() {
   addToGivenTracker(tracker);
 }
 
-function addToGivenTracker(tracker: { name: string; row: number }): void {
+function addToGivenTracker(tracker: {name: string; row: number}): void {
   const ui = SpreadsheetApp.getUi();
   const sheet = CONFIG.sheets.getCurrentTrackers();
 
@@ -70,10 +70,19 @@ function addToGivenTracker(tracker: { name: string; row: number }): void {
     return;
   }
 
-  const oldValues = sheet.getRange(tracker.row, 2, 1, 5).getValues()[0];
+  // TODO use a class to represent trackers and rows
+  type PartialTrackerRow = [number, number, Date, Date, Date];
+
+  const oldValues: PartialTrackerRow = sheet
+    .getRange(tracker.row, 2, 1, 5)
+    .getValues()[0] as PartialTrackerRow;
+
   const newRawTotal = oldValues[0] + hours * 3600 + minutes * 60;
+
   let newRawTodayTotal = hours * 3600 + minutes * 60;
+
   const lastDay = oldValues[4].toLocaleDateString();
+
   const day = new Date().toLocaleDateString();
   if (lastDay === day) {
     newRawTodayTotal += Number(oldValues[1]);
@@ -99,12 +108,4 @@ function addToGivenTracker(tracker: { name: string; row: number }): void {
     .getRange(tracker.row, 2, 1, values[0].length)
     .setValues(values)
     .setNumberFormats(formats);
-}
-
-/**
- * converts to UTC Date object
- * @param epochS epoch time in seconds
- */
-function EpochToUTC(epochS: number) {
-  return new Date(epochS * 1000);
 }

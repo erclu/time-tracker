@@ -1,4 +1,4 @@
-function onFormSubmit(e: GoogleAppsScript.Events.SheetsOnFormSubmit) {
+function onFormSubmit(e: GoogleAppsScript.Events.SheetsOnFormSubmit): void {
   const rowNumber = e.range.getRow();
 
   logEntry(rowNumber);
@@ -7,7 +7,7 @@ function onFormSubmit(e: GoogleAppsScript.Events.SheetsOnFormSubmit) {
   CONFIG.getForm().deleteAllResponses();
 }
 
-function onOpen() {
+function onOpen(): void {
   SpreadsheetApp.setActiveSheet(CONFIG.sheets.getCurrentTrackers());
 
   const range = CONFIG.sheets.getTrackersForm().getRange("E2:E");
@@ -28,7 +28,7 @@ function onOpen() {
     .addToUi();
 }
 
-function installableOnEdit(e: GoogleAppsScript.Events.SheetsOnEdit) {
+function installableOnEdit(e: GoogleAppsScript.Events.SheetsOnEdit): void {
   const oldValue = e.oldValue;
   const newValue = e.value;
   const range = e.range;
@@ -46,12 +46,12 @@ function installableOnEdit(e: GoogleAppsScript.Events.SheetsOnEdit) {
     return;
   }
 
-  if (oldValue === undefined) {
+  if (!oldValue) {
     console.info("not a valid tracker: %s", oldValue);
     return;
   }
 
-  if (newValue !== undefined) {
+  if (newValue) {
     console.info("value has not been deleted: %s", newValue);
     return;
   }

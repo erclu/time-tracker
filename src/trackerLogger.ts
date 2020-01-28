@@ -1,9 +1,4 @@
 function logEntry(row: number): void {
-  // XXX is this needed?
-  if (!row) {
-    return;
-  }
-
   const getTrackers = CONFIG.sheets
     .getTrackersForm()
     .getRange(row, 2, 1, 4)
@@ -17,7 +12,8 @@ function logEntry(row: number): void {
   const tracker = {
     name: getTrackers[0] as string,
     start: Number(getTrackers[1]),
-    end: Number(getTrackers[2]), // tslint:disable-line: object-literal-sort-keys
+    // tslint:disable-next-line: object-literal-sort-keys
+    end: Number(getTrackers[2]),
   };
 
   const lastDiff = tracker.end - tracker.start;
@@ -30,7 +26,8 @@ function logEntry(row: number): void {
     numTrackers++;
   }
 
-  const matchingTrackerRow = findMatchingTrackerRow(tracker.name); // is index + 2 or false
+  // is index + 2 or false
+  const matchingTrackerRow = findMatchingTrackerRow(tracker.name);
 
   let lastDay;
   let rawTotal;
@@ -96,7 +93,7 @@ function logEntry(row: number): void {
     .setValue(true);
 }
 
-function logAll() {
+function logAll(): void {
   const rows = CONFIG.sheets.getTrackersForm().getLastRow();
 
   for (let i = 2; i <= rows; i++) {
@@ -104,7 +101,7 @@ function logAll() {
   }
 }
 
-function findMatchingTrackerRow(name: string) {
+function findMatchingTrackerRow(name: string): number | false {
   const sheet = CONFIG.sheets.getCurrentTrackers();
   const maxRows = sheet.getMaxRows();
 

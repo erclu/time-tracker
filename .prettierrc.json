@@ -1,5 +1,8 @@
 {
   "arrowParens": "always",
+  "bracketSpacing": false,
   "endOfLine": "lf",
+  "parser": "typescript",
+  "printWidth": 80,
   "trailingComma": "all"
 }

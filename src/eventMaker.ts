@@ -1,14 +1,15 @@
-function makeEvent(row: number) {
+function makeEvent(row: number): void {
   // XXX is this needed?
   if (!row) {
     return;
   }
 
   const calendar = CONFIG.getCalendar();
-  const minEventLength = SCRIPT_PROPERTIES.minimumEventDuration;
+  const minEventLength = CONFIG.minimumEventDuration;
   const trackersForm = CONFIG.sheets.getTrackersForm();
 
-  const rowValues = trackersForm.getRange(row, 2, 1, 5).getValues()[0]; // get cols B to F
+  // get cols B to F
+  const rowValues = trackersForm.getRange(row, 2, 1, 5).getValues()[0];
 
   if (rowValues[4]) {
     // if value of "Event made" column is true
@@ -28,7 +29,7 @@ function makeEvent(row: number) {
   }
 }
 
-function makeAll() {
+function makeAll(): void {
   const rows = CONFIG.sheets.getTrackersForm().getLastRow();
 
   for (let i = 2; i <= rows; i++) {
