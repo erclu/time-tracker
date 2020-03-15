@@ -7,23 +7,23 @@
   },
   "description": "",
   "scripts": {
+    "check-format": "prettier --check **/*.ts",
     "format": "prettier --write **/*.ts",
-    "format-check": "prettier --check **/*.ts",
     "lint": "eslint src/**/*.ts --quiet --fix",
     "test": "echo 'Error: no test specified' && exit 1"
   },
   "author": "erclu",
   "license": "MIT",
+  "dependencies": {},
   "devDependencies": {
     "@google/clasp": "^2.3.0",
-    "@types/google-apps-script": "^1.0.10",
-    "@typescript-eslint/eslint-plugin": "^2.18.0",
-    "@typescript-eslint/parser": "^2.18.0",
+    "@types/google-apps-script": "^1.0.11",
+    "@typescript-eslint/eslint-plugin": "^2.23.0",
+    "@typescript-eslint/parser": "^2.23.0",
     "eslint": "^6.8.0",
     "inquirer": "^6.5.2",
     "prettier": "^1.19.1",
-    "ts2gas": "^3.4.4",
-    "typescript": "^3.7.5"
+    "ts2gas": "^3.6.1",
+    "typescript": "^3.8.3"
   },
-  "dependencies": {}
 }

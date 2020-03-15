@@ -5,10 +5,26 @@ on: # rebuild any PRs and main branch changes
   push:
     branches:
       - master
-
+      - develop
 
 jobs:
-  check-bom:
+  format:
+    name: Check formatting
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+
+      - name: Run prettier
+        run: |
+          npm ci
+          npm run --silent check-format
+
+  lint:
     name: run ESLint
     runs-on: ubuntu-latest
 
@@ -17,7 +33,7 @@ jobs:
 
       - uses: actions/setup-node@v1
         with:
-          node-version: 12.x
+          node-version: "12.x"
 
       # TODO cache some stuff?
       # - uses: actions/cache@v1
@@ -27,7 +43,9 @@ jobs:
       #     restore-keys: |
       #       ${{ runner.os }}-node-
 
-      - run: npm install
+      - run:
 
-      - name: Run ESLint from package.json script
-        run: npm run lint --silent
+      - name: Run ESLint
+        run: |
+          npm ci
+          npm run --silent lint

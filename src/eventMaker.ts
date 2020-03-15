@@ -1,9 +1,4 @@
 function makeEvent(row: number): void {
-  // XXX is this needed?
-  if (!row) {
-    return;
-  }
-
   const calendar = CONFIG.getCalendar();
   const minEventLength = CONFIG.minimumEventDuration;
   const trackersForm = CONFIG.sheets.getTrackersForm();

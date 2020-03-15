@@ -5,12 +5,6 @@ function testDelete(): void {
 }
 
 function deleteTracker(trackerName: string, logsRow: number): number {
-  // XXX why is this needed?
-  if (!trackerName || !logsRow) {
-    console.warn("no tracker name or log row given to function");
-    return 0;
-  }
-
   const logsSheet = CONFIG.sheets.getCurrentTrackers();
   const trackersForm = CONFIG.sheets.getTrackersForm();
 

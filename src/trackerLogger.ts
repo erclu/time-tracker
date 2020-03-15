@@ -31,6 +31,7 @@ function logEntry(row: number): void {
 
   let lastDay;
   let rawTotal;
+  // TODO update todayTotal for old trackers, or rename to lastDayTotal
   let rawTodayTotal;
   if (matchingTrackerRow) {
     const oldValues = sheet
