@@ -3,6 +3,3 @@ node_modules/
 
 # tsc outDir
 lib/
-
-# Clasp script credentials
-.clasp.json
